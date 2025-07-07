@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
@@ -9,6 +10,11 @@ module.exports = {
     publicPath: "/",
   },
   devtool: "source-map",
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      API_URL: "http://localhost:8080",
+    }),
+  ],
   module: {
     rules: [
       {
