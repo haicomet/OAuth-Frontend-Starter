@@ -46,6 +46,7 @@ const AppContent = () => {
         }
       );
       setUser(response.data.user);
+      console.log(auth0User);
     } catch (error) {
       console.error("Auth0 login error:", error);
     }
@@ -106,7 +107,11 @@ const AppContent = () => {
       />
       <div className="app">
         <h1>Hello React!</h1>
-        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
+        {user? (<img className="user-avatar" src={auth0User?.picture} alt="user-avatar" />):
+        (
+        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />)}
+      
+        
 
         <Routes>
           <Route
