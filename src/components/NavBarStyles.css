@@ -29,6 +29,7 @@
 .auth-links {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .nav-link {
@@ -55,6 +56,15 @@
   font-weight: 500;
 }
 
+.auth0-badge {
+  background-color: #eb5424;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 .logout-btn {
   background-color: #dc3545;
   color: white;
@@ -68,4 +78,19 @@
 
 .logout-btn:hover {
   background-color: #c82333;
+}
+
+.auth0-nav-btn {
+  background-color: #eb5424;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.auth0-nav-btn:hover {
+  background-color: #d4451d;
 }

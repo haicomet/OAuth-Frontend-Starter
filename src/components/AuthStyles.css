@@ -89,6 +89,47 @@
   cursor: not-allowed;
 }
 
+.auth-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.auth-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.auth-divider span {
+  background-color: white;
+  padding: 0 1rem;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.auth0-login-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #eb5424;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 1rem;
+}
+
+.auth0-login-btn:hover {
+  background-color: #d4451d;
+}
+
 .auth-link {
   text-align: center;
   margin-top: 1rem;
