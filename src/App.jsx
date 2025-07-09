@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import { API_URL } from "./shared";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
+import RepoList from "./components/RepoList";
 
 const GITHUB_API_URL = "https://api.github.com";
 
@@ -128,7 +129,7 @@ const AppContent = () => {
         }
       });
       setGithubRepos(response.data);
-      console.log(`Retrieved ${user.username}'s repositories from GitHub`)
+      console.log(`Retrieved ${user.username}'s repositories from GitHub`);
     } catch (error) {
       console.error("Error fecthing user repositories from GitHub:", error);
     }
@@ -176,6 +177,11 @@ const AppContent = () => {
                     <h2>Welcome, {user.username}!</h2>
                     <p>You are logged in.</p>
                     {user.auth0Id && <p>Authenticated via Auth0</p>}
+                    {
+                      user.auth0Id &&
+                      user.auth0Id.startsWith("github|") &&
+                      <RepoList repos={githubRepos} />
+                    }
                   </div>
                 ) : (
                   <div>
