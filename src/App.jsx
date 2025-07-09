@@ -13,6 +13,7 @@ import { auth0Config } from "./auth0-config";
 const AppContent = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [githubIdpToken, setGithubIdpToken] = useState(null);
   const {
     isAuthenticated,
     user: auth0User,
@@ -34,7 +35,7 @@ const AppContent = () => {
 
   useEffect(() => {
     if (auth0User)
-      fetchIdpToken();
+      fetchGithubIdpToken();
   }, [user]);
 
   const handleAuth0Login = async () => {
@@ -98,12 +99,14 @@ const AppContent = () => {
     loginWithRedirect();
   };
 
-  const fetchIdpToken = async () => {
+  const fetchGithubIdpToken = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/users/${user.auth0Id}/idp-token`, {
+      const response = await axios.get(`${API_URL}/api/users/${user.auth0Id}/github-idp-token`, {
         withCredentials: true,
       });
-      console.log("IDP Response:", response.data);
+      const token = response.data;
+      console.log("IDP Response:", token);
+      setGithubIdpToken(token);
     } catch (error) {
       console.error("Error retrieving IdP Token:", error);
     }
