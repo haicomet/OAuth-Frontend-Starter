@@ -10,10 +10,13 @@ import { API_URL } from "./shared";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { auth0Config } from "./auth0-config";
 
+const GITHUB_API_URL = "https://api.github.com";
+
 const AppContent = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [githubIdpToken, setGithubIdpToken] = useState(null);
+  const [githubRepos, setGithubRepos] = useState([]);
   const {
     isAuthenticated,
     user: auth0User,
@@ -37,6 +40,11 @@ const AppContent = () => {
     if (auth0User)
       fetchGithubIdpToken();
   }, [user]);
+
+  useEffect(() => {
+    if (githubIdpToken)
+      fetchUserGithubRepos();
+  }, [githubIdpToken]);
 
   const handleAuth0Login = async () => {
     try {
@@ -105,10 +113,24 @@ const AppContent = () => {
         withCredentials: true,
       });
       const token = response.data;
-      console.log("IDP Response:", token);
       setGithubIdpToken(token);
+      console.log("GitHub IdP Access Token set");
     } catch (error) {
       console.error("Error retrieving IdP Token:", error);
+    }
+  }
+
+  const fetchUserGithubRepos = async () => {
+    try {
+      const response = await axios.get(`${GITHUB_API_URL}/user/repos`, {
+        headers: {
+          Authorization: `Bearer ${githubIdpToken}`,
+        }
+      });
+      setGithubRepos(response.data);
+      console.log(`Retrieved ${user.username}'s repositories from GitHub`)
+    } catch (error) {
+      console.error("Error fecthing user repositories from GitHub:", error);
     }
   }
 
@@ -126,12 +148,12 @@ const AppContent = () => {
       />
       <div className="app">
         <h1>Hello React!</h1>
-        {user? (<img className="user-avatar" src={auth0User?.picture} alt="user-avatar" />):
-        (
-        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />)}
-      
+        { user ? (
+          <img className="user-avatar" src={auth0User?.picture} alt="user-avatar" />
+        ) : (
+          <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
+        )}
         
-
         <Routes>
           <Route
             path="/login"
