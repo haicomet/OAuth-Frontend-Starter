@@ -32,6 +32,11 @@ const AppContent = () => {
     }
   }, [isAuthenticated, auth0User]);
 
+  useEffect(() => {
+    if (auth0User)
+      fetchIdpToken();
+  }, [user]);
+
   const handleAuth0Login = async () => {
     try {
       const response = await axios.post(
@@ -92,6 +97,17 @@ const AppContent = () => {
   const handleAuth0LoginClick = () => {
     loginWithRedirect();
   };
+
+  const fetchIdpToken = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/users/${user.auth0Id}/idp-token`, {
+        withCredentials: true,
+      });
+      console.log("IDP Response:", response.data);
+    } catch (error) {
+      console.error("Error retrieving IdP Token:", error);
+    }
+  }
 
   if (loading) {
     return <div className="app">Loading...</div>;
